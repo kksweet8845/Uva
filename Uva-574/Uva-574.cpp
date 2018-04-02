@@ -3,10 +3,12 @@
 #include<cstring>
 using namespace std;
 bool seq[12];
-int sum_org,num,times;
+int sum_org,num,times,text[12];
 int real_num[12];
-void backtrack(int sum,int index);
+char ans[500][13],t[13];
+void backtrack(int sum,int index,int digit);
 void print();
+int check();
 int main(void)
 {
 	int i;
@@ -20,31 +22,40 @@ int main(void)
 		for(i =0;i<num;i++)
 		scanf("%d",&real_num[i]);
 		printf("Sums of %d:\n",sum_org);
-		backtrack(0,0);
+		memset(ans,0,sizeof(ans));
+		times = 0;
+		backtrack(0,0,0);
 		if(times == 0)
 			printf("NONE\n");
 	}
 	return 0;
 }
 
-void backtrack(int sum,int index)
+void backtrack(int sum,int index,int digit)
 {
 	int i;
 	if(sum == sum_org)
 	{
-		print();
+		if(check())
+		{
+			print();
+			strcpy(ans[times],t);
+		}
 		times++;
 		return; 
 	}
 	else if(sum < sum_org)
 	{
+		
 		for(i=index;i<num;i++)
 		{	
 			if(seq[i] == true)
 			{
 				seq[i] = false;
-				backtrack(sum+real_num[i],index+1);
+				text[digit] = real_num[i];
+				backtrack(sum+real_num[i],i+1,digit+1);
 				seq[i] = true;
+				text[digit] = 0;
 			}
 		}	
 	}
@@ -53,7 +64,6 @@ void backtrack(int sum,int index)
 	
 	
 }
-
 
 void print()
 {
@@ -70,4 +80,23 @@ void print()
 		}
 	}
 	printf("\n");
+}
+
+int check()
+{
+	int i,j;
+	for(i=0;i<12;i++)
+	{
+		t[i] = text[i] + 48;
+	}
+	for(i=0;i<times;i++)
+	{
+		if(!strcmp(t,ans[i]))
+		{
+			return 0;	
+		}
+		
+	}
+	
+	return 1;
 }
