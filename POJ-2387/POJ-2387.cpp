@@ -35,7 +35,7 @@ bool ini()
 	{
 		scanf("%d %d %d",&l_1,&l_2,&d);
 		w[l_1][l_2] = d;
-		w[l_2][l_1] = d;
+	//	w[l_2][l_1] = d;
 	}
 	
 	return 1;
@@ -49,7 +49,7 @@ void BellmanFord()
 			dis[i] = INT_MAX;
 	int x,y;
 	for(i=0;i<N-1;i++)
-		for(x=1;x<=N;x++)
+		for(x=N;x>=1;--x)
 			for(y=1;y<=N;y++)
 				if(dis[x]!=INT_MAX && w[x][y]!=0)
 					Relax(x,y);
